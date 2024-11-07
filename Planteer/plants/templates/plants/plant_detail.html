@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="plant-detail">
+    <h1>{{ plant.title }}</h1>
+
+    <div class="plant-image">
+        {% if plant.image %}
+            <img src="{{ plant.image.url }}" alt="{{ plant.title }}">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+    </div>
+
+    <div class="plant-info">
+        <p><strong>Category:</strong> {{ plant.get_category_display }}</p>
+        <p><strong>About:</strong> {{ plant.about }}</p>
+        <p><strong>Used for:</strong> {{ plant.used_for }}</p>
+        <p><strong>Is Edible:</strong> {{ plant.is_edible }}</p>
+    </div>
+
+    <div class="native-countries">
+        <strong>Native to:</strong>
+        <ul>
+            {% for country in plant.native_to.all %}
+                <li>{{ country.name }}</li>
+            {% empty %}
+                <li>No countries listed</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{% url 'plants:all_plants_view' %}">Back to all plants</a>
+</div>
+<form method="POST" action="{% url 'plants:delete_plant_view' plant.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete Plant</button>
+</form>
+
+{% endblock %}

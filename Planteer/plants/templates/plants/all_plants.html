@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <h1>All Plants</h1>
+        <div>
+            {% for plant in plants %}
+                <div>
+                    <div>
+                        <div>
+                            <h3>{{ plant.title }}</h3> 
+                            {% if plant.image %}
+                                <img src="{{ plant.image.url }}">
+                            {% else %}
+                                <p>No image available</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p>{{ plant.short_description }}</p>
+                            <p><strong>Category:</strong> {{ plant.category }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'plants:plant_detail_view' plant_id=plant.id %}">Show More</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
