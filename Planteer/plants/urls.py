@@ -7,6 +7,7 @@ urlpatterns = [
     path('all/', views.all_plants_view, name='all_plants_view'),
     path('<plant_id>/detail/', views.plant_detail_view, name='plant_detail_view'),
     #path('search_countries/', views.search_countries, name='search_countries'),
-    path('<plant_id>/delete/', views.delete_plant_view, name='delete_plant_view'),  
-
+    path('<plant_id>/delete/', views.delete_plant_view, name='delete_plant_view'), 
+    path('<plant_id>/update/', views.update_plant_view, name='update_plant_view'),
+    path('search/',views.search_plants_view, name='search_plants_view'),
 ]

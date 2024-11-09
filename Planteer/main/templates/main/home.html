@@ -1,12 +1,16 @@
 {% extends 'main/base.html' %}
-{% load static %} 
+{% load static %}
 
 {% block content %}
-    <div class="search">
-        <img src="" class="search-image">
+    <div class="page-container">
         <div class="search-container">
-            <input type="text" placeholder="search.." class="search-input">
-            <button class="search-button">Search</button>
+            <form action="{% url 'main:search_results' %}" method="get" class="search-container">
+                <input type="text" name="query" placeholder="Search..." class="search-input" required>
+                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="image-container">
+            <img src="{% static 'images/leaf.jpg' %}" alt="Right Image" class="right-image">
         </div>
     </div>
 {% endblock %}

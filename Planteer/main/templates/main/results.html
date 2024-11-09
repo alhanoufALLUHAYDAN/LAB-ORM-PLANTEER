@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if results %}
+    <ul>
+    {% for plant in results %}
+    <ul>
+        {% for plant in results %}
+            <li>
+                <a href="{% url 'plants:plant_detail_view' plant.id %}">
+                    {{ plant.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+{% endblock %}

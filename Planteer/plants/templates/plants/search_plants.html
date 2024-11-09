@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-5">Search Plants</h2>
+    
+    <form method="GET" action="{% url 'plants:search_plants_view' %}">
+        <input type="text" name="query" placeholder="Enter plant name or category" class="search-input" value="{{ search_title|default:'' }}">
+        <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+    </form>
+
+    {% if search_title %}
+        <h3 class="mt-5">Search Results for "{{ search_title }}"</h3>
+        {% if plants %}
+            <div class="plant-grid">
+                {% for plant in plants %}
+                    <div class="plant-card">
+                        <h3>{{ plant.title }}</h3>
+                        {% if plant.image %}
+                            <img src="{{ plant.image.url }}" alt="{{ plant.title }}" class="new-plant-image">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                        <div class="plant-details">
+                            <p><strong>Category:</strong> {{ plant.category }}</p>
+                            <p><strong>About:</strong> {{ plant.about|truncatewords:20 }}
+                                <a href="{% url 'plants:plant_detail_view' plant_id=plant.id %}" class="show-more-link">More</a>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No plants found.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
