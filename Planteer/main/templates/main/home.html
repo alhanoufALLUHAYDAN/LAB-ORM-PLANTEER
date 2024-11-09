@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+<link rel="icon" type="image/jpg" href="{% static 'images/icon-leaf.png' %}">
+<title>{% block title %}Planteer{% endblock %}</title>
     <div class="page-container">
         <div class="search-container">
             <form action="{% url 'main:search_results' %}" method="get" class="search-container">

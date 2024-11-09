@@ -1,49 +1,21 @@
 from django.shortcuts import render, redirect , get_object_or_404
 from django.core.paginator import Paginator
-from django.http import HttpRequest
 from .models import Plant, Country
 from django.contrib import messages
-import random
 from django.db.models import Q
+from .forms import PlantForm
+import random
 
-
-
-def add_plant_view(request: HttpRequest):
-    if request.method == "POST":
-        title = request.POST.get('title')
-        about = request.POST.get('about')
-        used_for = request.POST.get('used_for')
-        category = request.POST.get('category')  
-        is_edible = request.POST.get('is_edible') == 'True' 
-        image = request.FILES.get('image')
-        native_to = request.POST.getlist('native_to')
-
-        
-        plant = Plant.objects.create(
-            title=title,
-            about=about,
-            used_for=used_for,
-            category=category,  
-            is_edible=is_edible,
-            image=image,
-        )
-
-      
-        for country_id in native_to:
-            country = Country.objects.get(id=country_id)
-            plant.native_to.add(country)
-
-       
-        return redirect('plants:all_plants_view')
-
-   
-    categories = Plant.Category.choices  
-    countries = Country.objects.all()
-    return render(request, 'plants/add_plant.html', {
-        'categories': categories,
-        'countries': countries,
-    })
-
+def add_plant_view(request):
+    if request.method == 'POST':
+        form = PlantForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The plant has been successfully added.")
+            return redirect('plants:all_plants_view')  
+    else:
+        form = PlantForm()
+    return render(request, 'plants/add_plant.html', {'form': form})
 
 def all_plants_view(request):
     plants = Plant.objects.all()
@@ -85,42 +57,9 @@ def delete_plant_view(request, plant_id):
     
     if request.method == 'POST':
         plant.delete()
+        messages.success(request, "Successfully deleted.")
         return redirect('plants:all_plants_view')  
     
-
-def update_plant_view(request, plant_id):
-    plant = get_object_or_404(Plant, id=plant_id)
-    countries = Country.objects.all()
-    categories = Plant.Category.choices
-
-    if request.method == 'POST':
-        plant.title = request.POST.get('title')
-        if not plant.title: 
-            return redirect('plants:update_plant_view', plant_id=plant.id)
-        plant.about = request.POST.get('about')
-        plant.used_for = request.POST.get('used_for')
-        plant.is_edible = request.POST.get('is_edible') == 'True'
-        plant.category = request.POST.get('category')
-
-        if 'image' in request.FILES:
-            plant.image = request.FILES['image']
-
-        native_to_ids = request.POST.getlist('native_to')
-        plant.native_to.set(native_to_ids)
-
-        plant.save()
-
-        messages.success(request, 'Plant updated successfully')
-        return redirect('plants:plant_detail_view', plant_id=plant.id)
-
-    return render(request, 'plants/update_plant.html', {
-        'plant': plant,
-        'countries': countries,
-        'categories': categories,
-    })
-
-
-
 def search_plants_view(request):
     search_title = request.GET.get('query', '').strip()
     
@@ -135,10 +74,15 @@ def search_plants_view(request):
         'search_title': search_title,
     })
 
-'''
-def search_countries(request):
-    query = request.GET.get('query', '')
-    countries = Country.objects.filter(name__icontains=query).values('id', 'name')[:10] 
-    return JsonResponse(list(countries), safe=False)
-
-'''
+def update_plant_view(request, plant_id):
+    plant = get_object_or_404(Plant, id=plant_id)
+    print("Plant loaded for update:", plant.title, plant.about, plant.used_for) 
+    if request.method == 'POST':
+        form = PlantForm(request.POST, request.FILES, instance=plant)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully updated.")
+            return redirect('plants:plant_detail_view', plant_id=plant.id)
+    else:
+        form = PlantForm(instance=plant)
+    return render(request, 'plants/update_plant.html', {'form': form, 'plant': plant})

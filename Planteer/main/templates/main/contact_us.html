@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<title>{% block title %}Contact Us{% endblock %}</title>
+
+<div class="contact-container mt-5">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" class="custom-contact-form">
+        {% csrf_token %}
+        <div class="custom-form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.massage.label_tag }}
+            {{ form.massage }}
+        </div>
+        <button type="submit" class="custom-btn custom-btn-primary btn-block">Send</button>
+    </form>
+</div>
+{% endblock %}

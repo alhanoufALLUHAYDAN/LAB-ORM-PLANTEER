@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+<title>{% block title %}Details{% endblock %}</title>
 <div class="plant-detail">
     {% if messages %}
     {% for message in messages %}
@@ -17,7 +18,6 @@
             <p><strong>About:</strong> {{ plant.about }}</p>
             <p><strong>Used for:</strong> {{ plant.used_for }}</p>
             <p><strong>Is Edible:</strong> {% if plant.is_edible %}Yes{% else %}No{% endif %}</p>
-
             <div class="native-countries">
                 <strong>Native to:</strong>
                 <ul>

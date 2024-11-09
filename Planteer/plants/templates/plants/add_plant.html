@@ -2,78 +2,14 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-5">Add New Plant</h2>
-
-    <form method="POST" enctype="multipart/form-data">
+<title>{% block title %}New Plant{% endblock %}</title>
+<div class="add-plant-form-container mt-5">
+    <h2 class="text-center mb-5" style="color: #DB6B97;">Add New Plant</h2>
+    <form method="POST" enctype="multipart/form-data" class="add-plant-form">
         {% csrf_token %}
-        
-        <div style="display: flex; justify-content: space-between; gap: 20px;">
-            <div style="width: 48%;">
-                <div class="form-group">
-                    <label for="id_title">Plant Title</label>
-                    <input type="text" name="title" id="id_title" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-                </div>
-
-                <div class="form-group">
-                    <label for="id_about">About the Plant</label>
-                    <textarea name="about" id="id_about" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 15px;"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="id_used_for">Used For</label>
-                    <textarea name="used_for" id="id_used_for" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 15px;"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="id_is_edible">Is it Edible?</label>
-                    <div style="display: inline-flex; align-items: center; gap: 10px; margin-top: 5px;">
-                        <label for="id_is_edible_yes" style="display: inline-flex; align-items: center; margin-right: 10px;">
-                            <input type="radio" name="is_edible" id="id_is_edible_yes" value="True" style="margin-right: 5px;">
-                            Yes
-                        </label>
-                        <label for="id_is_edible_no" style="display: inline-flex; align-items: center;">
-                            <input type="radio" name="is_edible" id="id_is_edible_no" value="False" style="margin-right: 5px;">
-                            No
-                        </label>
-                    </div>
-                </div>
-                                             
-            </div>
-            <div style="width: 48%;">
-                <div class="form-group">
-                    <label for="id_native_to">Native to</label>
-                    <div class="dropdown">
-                        <div class="dropdown-menu" style="max-height: 150px; overflow-y: auto;">
-                            {% for country in countries %}
-                                <label class="dropdown-item">
-                                    <input type="checkbox" name="native_to" value="{{ country.id }}" class="country-checkbox">
-                                    {{ country.name }}
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="id_image">Plant Image</label>
-                    <input type="file" name="image" id="id_image" style="margin-bottom: 15px;">
-                </div>
-
-                <div class="form-group">
-                    <label for="id_category">Category</label>
-                    <select name="category" id="id_category" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
-                        {% for value, label in categories %}
-                            <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <button type="submit" style="padding: 10px 20px; background-color: #557C55; color: white; border: none; border-radius: 5px;">
-                Save Plant
-            </button>
+        {{ form.as_p }}
+        <div class="text-center mt-4">
+            <button type="submit" class="add-plant-btn add-plant-btn-primary">Save Plant</button>
         </div>
     </form>
 </div>

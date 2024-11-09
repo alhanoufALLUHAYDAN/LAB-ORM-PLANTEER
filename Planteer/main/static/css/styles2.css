@@ -4,6 +4,7 @@
     --background-color: #DB6B97;
     --text-color: #243D25;
 }
+
 html, body {
     height: 100%;
     margin: 0;
@@ -13,7 +14,6 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    
 }
 
 main {
@@ -29,9 +29,9 @@ header {
     padding: 20px;
 }
 
-.header-container h1 {
+.header-container h2 {
     margin: 0;
-    color: var(--background-color);
+    color: var(--text-color);
 }
 
 .material-symbols-outlined {
@@ -96,9 +96,30 @@ footer {
 
 .footer-left h3 {
     margin: 0;
-    color: #DB6B97;
 }
 
+.footer-right ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.footer-right a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.footer-right a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-right i {
+    margin-right: 5px;
+}
+
+.footer-right {
+    width: 50%;
+}
 
 .pagination-container {
     width: 100%;

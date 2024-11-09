@@ -2,10 +2,11 @@
 {% load static %}
 
 {% block content %}
+<title>{% block title %}Search Page{% endblock %}</title>
 
 <div class="container mt-5">
 
-    <h2 class="text-center mb-5">Search Plants</h2>
+    <h2 class="text-center mb-5"style="color: #DB6B97;">Search Plants</h2>
     
     <form method="GET" action="{% url 'plants:search_plants_view' %}">
         <input type="text" name="query" placeholder="Enter plant name or category" class="search-input" value="{{ search_title|default:'' }}">
@@ -26,7 +27,7 @@
                         {% endif %}
                         <div class="plant-details">
                             <p><strong>Category:</strong> {{ plant.category }}</p>
-                            <p><strong>About:</strong> {{ plant.about|truncatewords:20 }}
+                            <p><strong>About:</strong> {{ plant.about|truncatewords:10 }}
                                 <a href="{% url 'plants:plant_detail_view' plant_id=plant.id %}" class="show-more-link">More</a>
                             </p>
                         </div>
