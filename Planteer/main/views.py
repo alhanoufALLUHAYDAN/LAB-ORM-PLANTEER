@@ -32,7 +32,7 @@ def contact_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Your message has been successfully sent. Please wait for a reply.")
-            form = ContactForm()  # Reset the form after submission 
+            form = ContactForm()  
     else:
         form = ContactForm()
     return render(request, 'main/contact_us.html', {'form': form})

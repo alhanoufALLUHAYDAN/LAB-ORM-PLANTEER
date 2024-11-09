@@ -5,6 +5,9 @@
 <link rel="icon" type="image/jpg" href="{% static 'images/icon-leaf.png' %}">
 <title>{% block title %}Planteer{% endblock %}</title>
     <div class="page-container">
+        <div class="text-container">
+            <p class="hover-text">"Planteer: Your Journey into the World of Plants Begins Here  "</p>
+        </div>
         <div class="search-container">
             <form action="{% url 'main:search_results' %}" method="get" class="search-container">
                 <input type="text" name="query" placeholder="Search..." class="search-input" required>

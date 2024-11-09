@@ -20,3 +20,5 @@ class PlantForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'add-plant-form-control', 'required': False}),
             'category': forms.Select(attrs={'class': 'add-plant-form-control', 'required': 'required'}),
         }
+
+

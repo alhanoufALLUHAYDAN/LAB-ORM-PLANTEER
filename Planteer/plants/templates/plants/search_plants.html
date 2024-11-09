@@ -9,7 +9,7 @@
     <h2 class="text-center mb-5"style="color: #DB6B97;">Search Plants</h2>
     
     <form method="GET" action="{% url 'plants:search_plants_view' %}">
-        <input type="text" name="query" placeholder="Enter plant name or category" class="search-input" value="{{ search_title|default:'' }}">
+        <input type="text" name="query" placeholder="Enter plant name or category" class="search-input" value="{{ search_title}}" required>
         <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
     </form>
 

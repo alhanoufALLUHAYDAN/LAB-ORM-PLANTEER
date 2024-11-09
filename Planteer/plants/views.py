@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from .models import Plant, Country
 from django.contrib import messages
 from django.db.models import Q
-from .forms import PlantForm
+from .forms import PlantForm 
 import random
 
 def add_plant_view(request):
@@ -85,4 +85,5 @@ def update_plant_view(request, plant_id):
             return redirect('plants:plant_detail_view', plant_id=plant.id)
     else:
         form = PlantForm(instance=plant)
+        print("Form initial data:", form.initial)
     return render(request, 'plants/update_plant.html', {'form': form, 'plant': plant})
