@@ -7,10 +7,75 @@
     <h2 class="text-center mb-5" style="color: #DB6B97;">Update Plant</h2>
     <form method="POST" enctype="multipart/form-data" class="add-plant-form">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <div class="form-group" style="width: 100%;">
+            <label for="id_title" style="color: #555;">Title</label><br>
+            <input type="text" name="title" id="id_title" class="add-plant-form-control w-100" placeholder="Enter plant title" value="{{ form.title.value|default_if_none:plant.title }}">
+        </div>
+
+        <div class="form-group" style="width: 100%;">
+            <label for="id_about" style="color: #555;">About</label><br>
+            <textarea name="about" id="id_about" class="add-plant-form-control w-100" rows="4" placeholder="Write about the plant">{{ form.about.value|default_if_none:plant.about }}</textarea>
+        </div>
+
+        <div class="form-group" style="width: 100%;">
+            <label for="id_used_for" style="color: #555;">Used For</label><br>
+            <textarea name="used_for" id="id_used_for" class="add-plant-form-control w-100" rows="4" placeholder="What is the plant used for?">{{ form.used_for.value|default_if_none:plant.used_for }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="id_is_edible" style="color: #555;">Is Edible</label><br>
+            <input type="radio" name="is_edible" value="True" {% if form.is_edible.value == True %}checked{% endif %}> Yes
+            <input type="radio" name="is_edible" value="False" {% if form.is_edible.value == False %}checked{% endif %}> No
+        </div>
+
+        <div class="form-group" style="width: 100%; position: relative;">
+            <label style="color:  #555;">Native To</label><br>
+            <div class="dropdown-checkbox">
+                <button type="button" class="add-plant-form-control w-100" onclick="toggleDropdown()">Select Countries</button>
+                <div id="country-dropdown" style="display: none; border: 1px solid #ddd; padding: 10px; max-height: 200px; overflow-y: auto;">
+                    {% for country in form.native_to.field.queryset %}
+                        <div>
+                            <label>
+                                <input type="checkbox" name="native_to" value="{{ country.id }}" {% if country in form.native_to.value %}checked{% endif %}>
+                                {{ country.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="width: 100%;">
+            <label for="id_category" style="color: #555;">Category</label><br>
+            <select name="category" id="id_category" class="add-plant-form-control w-100">
+                {% for choice in form.category.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.category.value %}selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" style="width: 100%;">
+            <label for="id_image" style="color: #555;">Image</label><br>
+            <input type="file" name="image" id="id_image" class="add-plant-form-control">
+            {% if plant.image %}
+                <p>Current image: <img src="{{ plant.image.url }}" alt="Current Image" style="max-width: 100px; max-height: 100px;"></p>
+            {% endif %}
+        </div>
+
         <div class="text-center mt-4">
             <button type="submit" class="add-plant-btn add-plant-btn-primary">Update Plant</button>
         </div>
     </form>
 </div>
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById("country-dropdown");
+        if (dropdown.style.display === "none") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

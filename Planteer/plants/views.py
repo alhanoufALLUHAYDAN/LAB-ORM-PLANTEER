@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect , get_object_or_404
+from django.shortcuts import render, redirect 
 from django.core.paginator import Paginator
 from .models import Plant, Country
 from django.contrib import messages
@@ -38,7 +38,7 @@ def all_plants_view(request):
 
 
 def plant_detail_view(request, plant_id):
-    plant = get_object_or_404(Plant, id=plant_id)
+    plant = Plant.objects.filter(id=plant_id).first()
     related_plants = list(Plant.objects.filter(category=plant.category).exclude(id=plant.id))
     random.shuffle(related_plants) 
     countries = Country.objects.all()
@@ -53,7 +53,7 @@ def plant_detail_view(request, plant_id):
 
 
 def delete_plant_view(request, plant_id):
-    plant = get_object_or_404(Plant, id=plant_id)
+    plant = Plant.objects.filter(id=plant_id).first()
     
     if request.method == 'POST':
         plant.delete()
@@ -75,8 +75,12 @@ def search_plants_view(request):
     })
 
 def update_plant_view(request, plant_id):
-    plant = get_object_or_404(Plant, id=plant_id)
-    print("Plant loaded for update:", plant.title, plant.about, plant.used_for) 
+    
+    plant = Plant.objects.filter(id=plant_id).first()
+    if not plant:
+        messages.error(request, "Plant not found.")
+        return redirect('plants:all_plants_view')
+
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES, instance=plant)
         if form.is_valid():
@@ -85,5 +89,5 @@ def update_plant_view(request, plant_id):
             return redirect('plants:plant_detail_view', plant_id=plant.id)
     else:
         form = PlantForm(instance=plant)
-        print("Form initial data:", form.initial)
+
     return render(request, 'plants/update_plant.html', {'form': form, 'plant': plant})

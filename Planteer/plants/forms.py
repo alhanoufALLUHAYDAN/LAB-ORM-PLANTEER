@@ -7,6 +7,7 @@ class PlantForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'add-plant-dropdown-menu'}),
         label="Native to"
     )
+   
 
     class Meta:
         model = Plant
@@ -20,5 +21,15 @@ class PlantForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'add-plant-form-control', 'required': False}),
             'category': forms.Select(attrs={'class': 'add-plant-form-control', 'required': 'required'}),
         }
+        def __init__(self, *args, **kwargs):
+         super(PlantForm, self).__init__(*args, **kwargs)
+
+         if self.instance:
+                self.fields['title'].initial = self.instance.title
+                self.fields['about'].initial = self.instance.about
+                self.fields['used_for'].initial = self.instance.used_for
+                self.fields['is_edible'].initial = self.instance.is_edible
+                self.fields['native_to'].initial = self.instance.native_to.all()
+                self.fields['category'].initial = self.instance.category
 
 
